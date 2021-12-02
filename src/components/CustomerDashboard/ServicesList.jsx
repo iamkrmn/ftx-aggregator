@@ -4,7 +4,7 @@ import CardList from "./CardList";
 const ServicesList = props => {
     return(
         <div className = "services-list">
-            <CardList />
+            <CardList {...props}/>
         </div>
     )
 }
