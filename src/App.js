@@ -1,7 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
 import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ServiceDashboard from "./components/ServiceDashboard";
+import AppointmentDashboard from "./components/AppointmentDashboard";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -14,6 +15,9 @@ function App() {
             {" "}
           </Route>
           <Route path="/service" element={<ServiceDashboard />}>
+            {" "}
+          </Route>
+          <Route path="/appointment" element={<AppointmentDashboard />}>
             {" "}
           </Route>
         </Routes>
