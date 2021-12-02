@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomerDashboard from "./components/CustomerDashboard";
 import ServiceDashboard from "./components/ServiceDashboard";
 
