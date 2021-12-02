@@ -1,7 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import CustomerDashboard from "./components/CustomerDashboard";
+import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard";
 import ServiceDashboard from "./components/ServiceDashboard";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
