@@ -54,6 +54,9 @@ class ServiceProviderList extends React.Component{
     
                     {
                         this.state.providerSelected && <>
+                        <div className="name"> 
+                            {this.state.providerSelected}
+                        </div>
                         <div className="menu-items">
                             <MenuItem itemName={"Mc Aloo Tikki"} itemId={"0"} setOrder={this.setOrder} price={"100"} quantity={this.state.order[0] && this.state.order[0].quantity}/>
                             <MenuItem itemName={"Paneer wrap  "} itemId={"1"} setOrder={this.setOrder} price={"150"} quantity={this.state.order[1] && this.state.order[1].quantity}/>

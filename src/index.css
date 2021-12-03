@@ -215,3 +215,12 @@
   text-transform: uppercase;
   color: #f6f3f0;
 }
+
+.name{
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #222222;
+  margin: 0 0 20px 50px;
+}
