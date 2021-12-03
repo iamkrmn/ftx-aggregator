@@ -18,7 +18,9 @@ const CustomerModal = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Order Details: {props.details}
+            {props.details.map((item, index) => {
+            return (<div><span className="p-4">Item: {item.name}</span><span className="p-4">Quantity: {item.quantity}</span></div>);
+})}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -40,9 +42,15 @@ const CustomerModal = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <div>
           Customer Name: {props.details.name}
+          </div>
+          <div>
               Customer Address: {props.details.address}
+              </div>
+              <div>
               Contact: {props.details.phone}
+              </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -55,9 +63,6 @@ const CustomerModal = (props) => {
         </Modal>
           </div>
       }
-        
-  
-
       </>
     );
   }

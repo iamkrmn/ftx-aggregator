@@ -68,8 +68,7 @@ export const food_headers = [
     'Order ID', 
     'Order Items', 
     'Customer Details', 
-    'Generate Invoice', 
-    'Other Details'
+    'Restaurant'
 ];
 
 export const appointment_headers = [

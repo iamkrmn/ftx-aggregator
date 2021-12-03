@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import CustomerModal from "./CustomerModal";
 import {
   food_headers,
   food_data,
 } from "./dummyData";
+import io from "socket.io-client";
+import axios from "axios";
 
 const ServiceDashboard = (props) => {
+  // const socket = io("http://localhost:3000");
+  const [data, setData] = useState([]);
+  // socket.on("connect", () => console.log("connected"));
+  // socket.on("order.create", (payload) => {
+  //   console.log(payload);
+  // })
+
+  async function getData() {
+    try {
+      const orders = await axios.get('http://localhost:3000/orders');
+      return orders;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    getData().then((data) => {
+       console.log(data.data);
+      setData([...data.data]);
+    });
+  }, [])
   return (
     <React.Fragment>
       {/* Order Table */}
@@ -21,21 +45,16 @@ const ServiceDashboard = (props) => {
               </tr>
             </thead>
             <tbody>
-              {food_data.map((item, index) => (
-                <tr>
-                  <td>{item.order_id}</td>
+              {data.map((item, index) => (
+                <tr key={`order-${index}`}>
+                  <td>{item.id}</td>
                   <td>
-                    <CustomerModal type="items" details={item.order_details} />
+                    <CustomerModal type="items" details={item.items} />
                   </td>
                   <td>
-                    <CustomerModal details={item.customer_details} />
+                    <CustomerModal details={item.customer} />
                   </td>
-                  <td>
-                    <a href="#" className="link-success text-decoration-none">
-                      approve
-                    </a>
-                  </td>
-                  <td>{item.other_details}</td>
+                  <td>{item.restaurant}</td>
                 </tr>
               ))}
             </tbody>
