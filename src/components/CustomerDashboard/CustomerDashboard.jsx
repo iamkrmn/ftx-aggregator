@@ -5,40 +5,97 @@ import ServicesList from "./ServicesList";
 import { Footer } from "../Footer";
 import ServiceProviderList from "./ServiceProviderList";
 import Subscriptions from "./Subscriptions";
+import axios from "axios";
 
-const CustomerDashboard = (props) => {
-  const [serviceSelected, setServiceSelected] = useState("");
+class CustomerDashboard extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <React.Fragment>
-      <div className="container1">
-        <Header />
+    this.state = {
+      serviceSelected: null,
+      subscriptions: null,
+      subscriptionSelected: null,
+    };
+    this.setSubscriptions = this.setSubscriptions.bind(this);
+    this.setServiceSelected = this.setServiceSelected.bind(this);
+    this.setSubscriptionSelected = this.setSubscriptionSelected.bind(this);
+  }
 
-        {!serviceSelected && (
-          <>
-            <HeroSection />
-            <ServicesList
-              serviceSelected={serviceSelected}
-              setServiceSelected={setServiceSelected}
-            />
-          </>
-        )}
+  setSubscriptionSelected(sub) {
+    this.setState({ subscriptionSelected: sub });
+  }
 
-        {serviceSelected && (
-          <>
-            <ServiceProviderList
-              serviceSelected={serviceSelected}
-              setServiceSelected={setServiceSelected}
-            />
-          </>
-        )}
+  setSubscriptions(payload) {
+    this.setState({ subscriptions: payload }, () =>
+      console.log(this.state.subscriptions)
+    );
+  }
 
-        <Subscriptions />
+  setServiceSelected(value) {
+    this.setState({
+      serviceSelected: value,
+    });
+  }
 
-        <Footer />
-      </div>
-    </React.Fragment>
-  );
-};
+  getSubscriptions() {
+    const baseUrl = "https://7ac2-49-207-218-230.ngrok.io/customers/1";
+    let response = axios
+      .get(baseUrl, {})
+      .then((response) => this.setSubscriptions(response.data.subscriptions));
+  }
+
+  componentDidMount() {
+    this.getSubscriptions();
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div className="container1">
+          <Header />
+
+          {!this.state.serviceSelected && (
+            <>
+              <HeroSection />
+              <ServicesList
+                serviceSelected={this.state.serviceSelected}
+                setServiceSelected={this.setServiceSelected}
+              />
+            </>
+          )}
+
+          {this.state.serviceSelected && (
+            <>
+              <ServiceProviderList
+                serviceSelected={this.state.serviceSelected}
+                setServiceSelected={this.setServiceSelected}
+              />
+            </>
+          )}
+
+          {this.state.subscriptions && !this.state.subscriptionSelected && (
+            <>
+              <Subscriptions subscriptions={this.state.subscriptions} setSubscriptionSelected={this.setSubscriptionSelected} />
+            </>
+          )}
+
+          {this.state.subscriptions && this.state.subscriptionSelected && (
+            <>
+              <ServiceProviderList
+                serviceSelected={this.state.serviceSelected}
+                setServiceSelected={this.setServiceSelected}
+                editMode={true}
+                subscriptionSelected={this.state.subscriptionSelected}
+                
+              />
+            </>
+          )}
+
+          <Footer />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 export default CustomerDashboard;

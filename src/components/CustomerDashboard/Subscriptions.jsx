@@ -1,11 +1,26 @@
 import React from "react";
+import Card from "./Card";
 
-const Subscriptions = props => {
-    return(
-        <div className="subscription-list">
+class Subscriptions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
 
+  }
+
+  render() {
+    return (
+        <div className="services-list">
+            <div className="card-container">
+                {
+                    this.props.subscriptions.map((Subscription, key) => 
+                        <Card footerContent={"Food"} background={"burger.png"} handleCardClick={() => this.props.setSubscriptionSelected(Subscription)}/> 
+                    )
+                }
+            </div>
         </div>
-    )
+    );
+  }
 }
 
 export default Subscriptions;

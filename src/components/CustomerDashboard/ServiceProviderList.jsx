@@ -21,6 +21,30 @@ class ServiceProviderList extends React.Component {
     this.setTime = this.setTime.bind(this);
     this.decreaseOrder = this.decreaseOrder.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.setAppContext = this.setAppContext.bind(this);
+  }
+
+  componentDidMount() {
+    let payload;
+    const sub = this.props.subscriptionSelected;
+
+    if (sub) {
+      payload = {
+        ...payload,
+        providerSelected: sub.default.restaurant,
+        order: sub.default.list,
+        timeSelected: sub.time,
+      };
+      payload = {
+        ...payload,
+        order: {
+          ...payload.order,
+          total: sub.default.total,
+        }
+      }
+
+      this.setAppContext(payload);
+    }
   }
 
   setProviderSelected(provider) {
@@ -44,7 +68,7 @@ class ServiceProviderList extends React.Component {
     const currentQuantity =
       currentOrder[itemId] && currentOrder[itemId].quantity;
     if (!currentQuantity) {
-      currentOrder[itemId] = { name: itemName , quantity: 1 };
+      currentOrder[itemId] = { name: itemName, quantity: 1 };
     } else {
       currentOrder[itemId].quantity = currentQuantity + 1;
     }
@@ -64,31 +88,52 @@ class ServiceProviderList extends React.Component {
     }
   }
 
-  handleSubscribe(){
-      if(!this.state.budgetExceeded){
-        console.log("ASDFFDSA",this.state.order);
-        const endpoint = "https://7ac2-49-207-218-230.ngrok.io/subscriptions";
-        let list = this.state.order;
-        delete list["total"];
-        console.log(list);
+  handleSubscribe() {
+    let endpoint = "https://7ac2-49-207-218-230.ngrok.io/subscriptions";
+    if (!this.state.budgetExceeded && !this.props.editMode) {
+      let list = this.state.order;
+      const total = this.state.order["total"];
+      delete list["total"];
+      console.log(list);
+      const payload = {
+        subscriptionType: "order",
+        budget: this.state.budgetSelected,
+        default: {
+          restaurant: this.state.providerSelected,
+          list,
+          total: parseInt(total),
+        },
+        time: this.state.timeSelected,
+        customerId: 1,
+      };
+      try {
+        axios.post(endpoint, payload);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if(this.props.editMode && !this.state.budgetExceeded) {
+      const subId = this.props.subscriptionSelected.id;
+      const epoint = `${endpoint}/${subId}`
+      let list2 = this.state.order;
+      const total = this.state.order["total"];
+      delete list2["total"];
+
         const payload = {
-            subscriptionType: "order",
-            budget: this.state.budgetSelected,
-            default: {
-                restaurant: this.state.providerSelected,
-                list,
-            },
-            time: this.state.timeSelected,
-            customerId: 1,
+          custom: {
+            restaurant: this.state.providerSelected,
+            list: list2,
+            total: parseInt(total),
+          }
         }
         try{
-            axios.post(endpoint, payload);
+          axios.patch(epoint, payload);
+        }catch(e){
+          console.log(e)
         }
-        catch(error) {
-            console.log(error);
-        }
+    }
 
-      }
   }
 
   decreaseOrder(itemId, price) {
@@ -98,14 +143,17 @@ class ServiceProviderList extends React.Component {
     if (currentQuantity > 1) {
       currentOrder[itemId].quantity = currentQuantity - 1;
     } else {
-        delete currentOrder[itemId];
+      delete currentOrder[itemId];
     }
     const currentTotal = currentOrder.total - price;
     currentOrder.total = currentTotal;
 
-    this.setState({
-      order: currentOrder,
-    }, () => console.log(currentOrder));
+    this.setState(
+      {
+        order: currentOrder,
+      },
+      () => console.log(currentOrder)
+    );
 
     if (currentTotal < this.state.budgetSelected) {
       this.setState({
@@ -118,6 +166,14 @@ class ServiceProviderList extends React.Component {
     e.preventDefault();
     this.setState({
       budgetSelected: parseInt(e.target.value),
+    });
+  }
+
+  setAppContext(props) {
+    this.setState({
+      providerSelected: props.providerSelected,
+      order: props.order,
+      timeSelected: props.timeSelected,
     });
   }
 
@@ -146,14 +202,17 @@ class ServiceProviderList extends React.Component {
           {this.state.providerSelected && (
             <>
               <div className="name">{this.state.providerSelected}</div>
-              <div className="name">
-                Select your Budget
-                <input
-                  type="text"
-                  className="budget budget-margin"
-                  onChange={this.handleBudgetChange}
-                />
-              </div>
+              {!this.props.editMode && (
+                <div className="name">
+                  Select your Budget
+                  <input
+                    type="text"
+                    className="budget budget-margin"
+                    onChange={this.handleBudgetChange}
+                  />
+                </div>
+              )}
+
               <div className="menu-items">
                 {Menus[this.state.providerSelected].map((item, key) => (
                   <MenuItem
@@ -184,7 +243,12 @@ class ServiceProviderList extends React.Component {
               <div className="orderRow">
                 <div className="total">Total : {this.state.order.total}</div>
 
-                <input type="button" className="subscribe" value="Subscribe" onClick={this.handleSubscribe}/>
+                <input
+                  type="button"
+                  className="subscribe"
+                  value={!this.props.editMode ? "Subscribe" : "Place"}
+                  onClick={this.handleSubscribe}
+                />
               </div>
             </>
           )}
