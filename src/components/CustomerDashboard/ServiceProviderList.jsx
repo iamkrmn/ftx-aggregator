@@ -44,7 +44,7 @@ class ServiceProviderList extends React.Component {
     const currentQuantity =
       currentOrder[itemId] && currentOrder[itemId].quantity;
     if (!currentQuantity) {
-      currentOrder[itemId] = { itemName: itemName , quantity: 1 };
+      currentOrder[itemId] = { name: itemName , quantity: 1 };
     } else {
       currentOrder[itemId].quantity = currentQuantity + 1;
     }
