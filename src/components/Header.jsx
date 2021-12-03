@@ -4,7 +4,7 @@ const Header = (props) => {
   return (
     <div className="header">
       <div className="accountBalance">
-        <div className="balText">Account Balance : 10,000</div>
+        <div className="balText"> Balance</div>
       </div>
     </div>
   );

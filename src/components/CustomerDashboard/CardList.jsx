@@ -17,9 +17,9 @@ const CardList = props => {
 
     return(
         <div className = "card-container"> 
-            <Card footerContent={"Food"} background={"burger.jpg"} handleCardClick={handleFoodClick}/> 
-            <Card footerContent={"Health & Fitness"} background={"gym.jpeg"} handleClick={handleGymClick}/>
-            <Card footerContent={"Groceries"} background={"groceries.jpg"} handleClick={handleGroceryClick}/>
+            <Card footerContent={"Food"} background={"burger.png"} handleCardClick={handleFoodClick}/> 
+            <Card footerContent={"Health & Fitness"} background={"dumbell.png"} handleClick={handleGymClick}/>
+            <Card footerContent={"Groceries"} background={"grocery.png"} handleClick={handleGroceryClick}/>
         </div>
     )
 };
