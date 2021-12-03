@@ -79,7 +79,7 @@ class ServiceProviderList extends React.Component {
                 list,
             },
             time: this.state.timeSelected,
-            customerId: "1"
+            customerId: 1,
         }
         try{
             axios.post(endpoint, payload);
@@ -117,7 +117,7 @@ class ServiceProviderList extends React.Component {
   handleBudgetChange(e) {
     e.preventDefault();
     this.setState({
-      budgetSelected: e.target.value,
+      budgetSelected: parseInt(e.target.value),
     });
   }
 
