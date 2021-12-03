@@ -80,3 +80,51 @@ export const appointment_headers = [
     'Reschedule',
     'Reject'
 ];
+
+
+export const Menus = {
+    Mcd: [
+        {
+            itemName: "Mc Aloo Tikki",
+            itemId: "0",
+            price: "100",
+        },
+        {
+            itemName: "Paneer Wrap",
+            itemId: "1",
+            price: "150",
+        },
+        {
+            itemName: "Peri Peri Fries",
+            itemId: "2",
+            price: "180",
+        },
+        {
+            itemName: "Mc Flurry",
+            itemId: "3",
+            price: "200",
+        }
+    ],
+    dominos: [
+        {
+            itemName: "Margherita",
+            itemId: "0",
+            price: "400",
+        },
+        {
+            itemName: "Pepperoni",
+            itemId: "1",
+            price: "450",
+        },
+        {
+            itemName: "Farmhouse",
+            itemId: "2",
+            price: "380",
+        },
+        {
+            itemName: "Garlic Bread",
+            itemId: "3",
+            price: "120",
+        }
+    ],
+}
