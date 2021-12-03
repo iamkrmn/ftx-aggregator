@@ -18,7 +18,7 @@ const ServiceDashboard = (props) => {
 
   async function getData() {
     try {
-      const orders = await axios.get('http://localhost:3000/orders');
+      const orders = await axios.get('https://7ac2-49-207-218-230.ngrok.io/orders');
       return orders;
     } catch (e) {
       console.error(e);
