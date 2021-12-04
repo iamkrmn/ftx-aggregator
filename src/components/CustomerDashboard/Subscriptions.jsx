@@ -11,6 +11,7 @@ class Subscriptions extends React.Component {
   render() {
     return (
         <div className="services-list">
+            <span className="service-header"> Your active subscriptions </span>
             <div className="card-container">
                 {
                     this.props.subscriptions.map((Subscription, key) => 

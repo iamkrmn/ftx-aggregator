@@ -15,6 +15,7 @@ class CustomerDashboard extends React.Component {
       serviceSelected: null,
       subscriptions: null,
       subscriptionSelected: null,
+      walletBalance: null,
     };
     this.setSubscriptions = this.setSubscriptions.bind(this);
     this.setServiceSelected = this.setServiceSelected.bind(this);
@@ -39,9 +40,14 @@ class CustomerDashboard extends React.Component {
 
   getSubscriptions() {
     const baseUrl = "https://7ac2-49-207-218-230.ngrok.io/customers/1";
-    let response = axios
-      .get(baseUrl, {})
-      .then((response) => this.setSubscriptions(response.data.subscriptions));
+    let response = axios.get(baseUrl, {}).then((response) => {
+      this.setState(
+        {
+          walletBalance: response.data.walletBalance,
+        },
+        () => this.setSubscriptions(response.data.subscriptions)
+      );
+    });
   }
 
   componentDidMount() {
@@ -52,14 +58,15 @@ class CustomerDashboard extends React.Component {
     return (
       <React.Fragment>
         <div className="container1">
-          <Header />
+          <Header walletBalance={this.state.walletBalance} />
 
-          {!this.state.serviceSelected && (
+          {!this.state.serviceSelected && !this.state.subscriptionSelected && (
             <>
               <HeroSection />
               <ServicesList
                 serviceSelected={this.state.serviceSelected}
                 setServiceSelected={this.setServiceSelected}
+                bal={this.state.walletBalance}
               />
             </>
           )}
@@ -69,13 +76,17 @@ class CustomerDashboard extends React.Component {
               <ServiceProviderList
                 serviceSelected={this.state.serviceSelected}
                 setServiceSelected={this.setServiceSelected}
+                bal={this.state.walletBalance}
               />
             </>
           )}
 
           {this.state.subscriptions && !this.state.subscriptionSelected && (
             <>
-              <Subscriptions subscriptions={this.state.subscriptions} setSubscriptionSelected={this.setSubscriptionSelected} />
+              <Subscriptions
+                subscriptions={this.state.subscriptions}
+                setSubscriptionSelected={this.setSubscriptionSelected}
+              />
             </>
           )}
 
@@ -86,7 +97,7 @@ class CustomerDashboard extends React.Component {
                 setServiceSelected={this.setServiceSelected}
                 editMode={true}
                 subscriptionSelected={this.state.subscriptionSelected}
-                
+                bal={this.state.walletBalance}
               />
             </>
           )}
