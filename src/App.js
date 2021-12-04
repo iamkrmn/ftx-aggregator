@@ -11,13 +11,13 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/customer" element={<CustomerDashboard />}>
+          <Route exact path="/" element={<CustomerDashboard />}>
             {" "}
           </Route>
-          <Route path="/service" element={<ServiceDashboard />}>
+          <Route exact path="/service" element={<ServiceDashboard />}>
             {" "}
           </Route>
-          <Route path="/appointment" element={<AppointmentDashboard />}>
+          <Route exact path="/appointment" element={<AppointmentDashboard />}>
             {" "}
           </Route>
         </Routes>

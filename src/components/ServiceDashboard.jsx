@@ -3,10 +3,9 @@ import { Table } from "react-bootstrap";
 import CustomerModal from "./CustomerModal";
 import {
   food_headers,
-  food_data,
 } from "./dummyData";
-import io from "socket.io-client";
 import axios from "axios";
+import baseUrl from "../baseUrl";
 
 const ServiceDashboard = (props) => {
   // const socket = io("http://localhost:3000");
@@ -18,7 +17,7 @@ const ServiceDashboard = (props) => {
 
   async function getData() {
     try {
-      const orders = await axios.get('https://7ac2-49-207-218-230.ngrok.io/orders');
+      const orders = await axios.get(`${baseUrl}/orders`);
       return orders;
     } catch (e) {
       console.error(e);
@@ -36,7 +35,7 @@ const ServiceDashboard = (props) => {
       {/* Order Table */}
       <div className="container">
         <div className="m-5">
-          <Table striped bordered hover>
+          <Table striped bordered hover className="shadow">
             <thead>
               <tr>
                 {food_headers.map((header, index) => (
@@ -55,6 +54,7 @@ const ServiceDashboard = (props) => {
                     <CustomerModal details={item.customer} />
                   </td>
                   <td>{item.restaurant}</td>
+                  <td>{item.status}</td>
                 </tr>
               ))}
             </tbody>

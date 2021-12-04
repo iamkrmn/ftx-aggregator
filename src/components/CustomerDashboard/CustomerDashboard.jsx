@@ -6,6 +6,7 @@ import { Footer } from "../Footer";
 import ServiceProviderList from "./ServiceProviderList";
 import Subscriptions from "./Subscriptions";
 import axios from "axios";
+import baseUrl from "../../baseUrl";
 
 class CustomerDashboard extends React.Component {
   constructor(props) {
@@ -39,8 +40,8 @@ class CustomerDashboard extends React.Component {
   }
 
   getSubscriptions() {
-    const baseUrl = "https://7ac2-49-207-218-230.ngrok.io/customers/1";
-    let response = axios.get(baseUrl, {}).then((response) => {
+    const url = `${baseUrl}/customers/1`;
+    let response = axios.get(url, {}).then((response) => {
       this.setState(
         {
           walletBalance: response.data.walletBalance,

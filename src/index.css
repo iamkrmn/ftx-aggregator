@@ -284,3 +284,6 @@
   margin-right: 20px;
 }
 
+.shadow {
+  box-shadow: 2px 2px 17px #e1dada;
+}

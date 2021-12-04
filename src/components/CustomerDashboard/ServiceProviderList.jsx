@@ -4,6 +4,7 @@ import MenuItem from "./MenuItem";
 import { Menus } from "./../dummyData";
 import TimePicker from "react-time-picker";
 import axios from "axios";
+import baseUrl from "../../baseUrl";
 class ServiceProviderList extends React.Component {
   constructor(props) {
     super(props);
@@ -121,7 +122,7 @@ class ServiceProviderList extends React.Component {
   }
 
   handleSubscribe() {
-    let endpoint = "https://7ac2-49-207-218-230.ngrok.io/subscriptions";
+    let endpoint = `${baseUrl}/subscriptions`;
     if (!this.state.budgetExceeded && !this.props.editMode) {
       let list = this.state.order;
       const total = this.state.order["total"];
@@ -140,6 +141,7 @@ class ServiceProviderList extends React.Component {
       };
       try {
         axios.post(endpoint, payload).then(() => this.setSubSuccess());
+        setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         console.log(error);
       }
@@ -159,6 +161,7 @@ class ServiceProviderList extends React.Component {
           total: parseInt(total),
         },
       };
+      console.log(payload);
       try {
         axios.patch(epoint, payload).then(() => this.setSubEdit());
       } catch (e) {
@@ -274,6 +277,7 @@ class ServiceProviderList extends React.Component {
                       quantity={
                         this.state.order[key] && this.state.order[key].quantity
                       }
+                      key={`menu-${key}`}
                     />
                   ))}
                   {this.state.budgetExceeded && (
